@@ -20,10 +20,9 @@ class _WeatherInfoPageState extends State<WeatherInfoPage> {
 
   @override
   void initState() {
-    getWeather(cepInfo.localidade, cepInfo.uf, 'Brazil')
-        .then((value) => setState(() {
-              weatherInfo = value;
-            }));
+    getWeather(cepInfo.localidade, cepInfo.uf, 'Brazil').then((value) => setState(() {
+          weatherInfo = value;
+        }));
     super.initState();
   }
 
@@ -31,75 +30,69 @@ class _WeatherInfoPageState extends State<WeatherInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(128, 155, 206, 1),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(128, 155, 206, 1),
+        title: Text('Previsão do Tempo'),
+      ),
       body: Center(
         child: Container(
-          margin: const EdgeInsets.all(50.0),
-          height: 500,
+          height: 600,
           child: Column(
             children: [
-              Text(cepInfo.localidade,
-                  style: const TextStyle(fontSize: 35, color: Colors.white)),
-              Text(cepInfo.logradouro + ', ' + cepInfo.bairro,
-                  style: const TextStyle(fontSize: 18, color: Colors.white)),
-              Spacer(flex: 2),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 8.0, // gap between adjacent chips
-                runSpacing: 4.0, // gap between lines
-                children: <Widget>[
-                  Image.network('http://openweathermap.org/img/wn/' +
-                      weatherInfo.weather[0]?.icon +
-                      '@2x.png'),
-                  Text(weatherInfo.main.temp.toStringAsFixed(0) + '°',
-                      style:
-                          const TextStyle(fontSize: 100, color: Colors.white)),
-                ],
-              ),
-              Text(
-                  'Sensação de ' +
-                      weatherInfo.main.feelsLike.toStringAsFixed(0) +
-                      '°',
-                  style: const TextStyle(fontSize: 20, color: Colors.white)),
-              Text(weatherInfo.weather[0]?.description,
-                  style: const TextStyle(fontSize: 20, color: Colors.white)),
-              Spacer(flex: 2),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 8.0, // gap between adjacent chips
-                runSpacing: 4.0, // gap between lines
-                children: <Widget>[
-                  Icon(
-                    Icons.opacity,
-                    color: Colors.white,
-                    size: 24.0,
-                  ),
-                  Text(
-                      'Umidade do ar: ' +
-                          weatherInfo.main.humidity.toString() +
-                          'g/Kg',
-                      style:
-                          const TextStyle(fontSize: 20, color: Colors.white)),
-                ],
-              ),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 8.0, // gap between adjacent chips
-                runSpacing: 4.0, // gap between lines
-                children: <Widget>[
-                  Icon(
-                    Icons.waves,
-                    color: Colors.white,
-                    size: 24.0,
-                  ),
-                  Text('Vento: ' + weatherInfo.wind.speed.toString() + 'km/h',
-                      style:
-                          const TextStyle(fontSize: 20, color: Colors.white)),
-                ],
-              ),
+              Text(cepInfo.localidade, style: const TextStyle(fontSize: 35, color: Colors.white)),
+              Text(cepInfo.logradouro + ', ' + cepInfo.bairro, style: const TextStyle(fontSize: 18, color: Colors.white)),
+              Spacer(),
+              if (weatherInfo.weather != null) ..._weatherInfo(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _weatherInfo() {
+    return [
+      Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8.0, // gap between adjacent chips
+        runSpacing: 4.0, // gap between lines
+        children: <Widget>[
+          if (this.weatherInfo.weather != null)
+            Image.network('http://openweathermap.org/img/wn/' + weatherInfo.weather[0]?.icon + '@2x.png'),
+          Text(weatherInfo.main.temp.toStringAsFixed(0) + '°', style: const TextStyle(fontSize: 100, color: Colors.white)),
+        ],
+      ),
+      Text('Sensação de ' + weatherInfo.main.feelsLike.toStringAsFixed(0) + '°', style: const TextStyle(fontSize: 20, color: Colors.white)),
+      Text(weatherInfo.weather[0]?.description, style: const TextStyle(fontSize: 20, color: Colors.white)),
+      Spacer(),
+      Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8.0, // gap between adjacent chips
+        runSpacing: 4.0, // gap between lines
+        children: <Widget>[
+          Icon(
+            Icons.opacity,
+            color: Colors.white,
+            size: 24.0,
+          ),
+          Text('Umidade do ar: ' + weatherInfo.main.humidity.toString() + 'g/Kg',
+              style: const TextStyle(fontSize: 20, color: Colors.white)),
+        ],
+      ),
+      Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8.0, // gap between adjacent chips
+        runSpacing: 4.0, // gap between lines
+        children: <Widget>[
+          Icon(
+            Icons.waves,
+            color: Colors.white,
+            size: 24.0,
+          ),
+          Text('Vento: ' + weatherInfo.wind.speed.toString() + 'km/h', style: const TextStyle(fontSize: 20, color: Colors.white)),
+        ],
+      ),
+      Spacer(),
+    ];
   }
 }

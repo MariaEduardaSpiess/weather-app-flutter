@@ -18,9 +18,11 @@ class _FormWeatherState extends State<FormWeather> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color.fromRGBO(128, 155, 206, 1),
-        body: Padding(
-          padding: EdgeInsets.all(50),
-          child: _formUI(),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(50),
+            child: _formUI(),
+          ),
         ),
       ),
     );
@@ -28,43 +30,41 @@ class _FormWeatherState extends State<FormWeather> {
 
   Widget _formUI() {
     const TextStyle _textWhiteStyle = TextStyle(color: Colors.white);
-    return Center(
-      child: Container(
-        height: 400,
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Column(
-            children: <Widget>[
-              Image.asset('logo.png'),
-              TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'CEP',
-                    labelStyle: _textWhiteStyle,
-                    counterStyle: _textWhiteStyle),
-                maxLength: 8,
-                style: _textWhiteStyle,
-                controller: _ctrlCEP,
-                validator: _validarCEP,
-                keyboardType: TextInputType.number,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Color.fromRGBO(184, 224, 210, 1)),
-                  ),
-                  onPressed: () {
-                    _sendForm();
-                  },
-                  child: const Text('Buscar',
-                      style: TextStyle(color: Color.fromRGBO(51, 80, 132, 1))),
-                ),
-              ),
-            ],
+    return Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.disabled,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+            child: Image.asset('logo.png'),
           ),
-        ),
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: 'CEP',
+              labelStyle: _textWhiteStyle,
+              counterStyle: _textWhiteStyle,
+              border: OutlineInputBorder(),
+            ),
+            maxLength: 8,
+            style: _textWhiteStyle,
+            controller: _ctrlCEP,
+            validator: _validarCEP,
+            keyboardType: TextInputType.number,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(184, 224, 210, 1)),
+              ),
+              onPressed: () {
+                _sendForm();
+              },
+              child: const Text('Buscar', style: TextStyle(color: Color.fromRGBO(51, 80, 132, 1))),
+            ),
+          ),
+        ],
       ),
     );
   }
