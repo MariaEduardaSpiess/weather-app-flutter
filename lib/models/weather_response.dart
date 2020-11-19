@@ -79,13 +79,7 @@ class Weather {
 }
 
 class Main {
-  Main(
-      {this.temp,
-      this.feelsLike,
-      this.tempMin,
-      this.tempMax,
-      this.pressure,
-      this.humidity});
+  Main({this.temp, this.feelsLike, this.tempMin, this.tempMax, this.pressure, this.humidity});
 
   Main.fromJson(Map<String, dynamic> json) {
     temp = json['temp'];

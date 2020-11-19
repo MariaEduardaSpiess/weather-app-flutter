@@ -8,10 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Color.fromRGBO(128, 155, 206, 1),
-        body: FormWeather(),
-      ),
+      home: FormWeather(),
     );
   }
 }
